@@ -1,7 +1,7 @@
 # SmartPDFQA - AI Chatbot for PDFs with ChromaDB & Azure OpenAI
 SmartPDFQA is an AI-powered chatbot that **reads and understands PDFs**. It allows users to **ask questions**, and **Azure OpenAI answers in a natural way**, using **only** the information stored in the PDFs.
 
-## How It Works**
+## **How It Works**
 **It reads all the PDFs you put in the Libros folder**  
 **The system processes them**, extracting text and creating **high-quality embeddings** with Hugging Face
 **Embeddings are stored in ChromaDB**, a powerful vector database for fast searches 
@@ -36,10 +36,12 @@ AI: The main components of the Android operating system include:
 📄 *Android Software Internals Quick Reference.pdf* (Pages 7, 45, 78, 102)
 
 
-## **How to run the project**
 
-Create a .env file and set the variables listed
+## 🔹 Environment Variables
 
+Create a `.env` file in the project root and add the following credentials:
+
+```ini
 # Azure OpenAI Credentials
 OPENAI_API_KEY=your-azure-openai-key
 OPENAI_API_VERSION=your-api-version
@@ -52,6 +54,7 @@ CHROMADB_HOST=chromadb_env
 CHROMADB_PORT=8000
 CHROMADB_USER=admin
 CHROMADB_PASSWORD=securepassword123
+
 
 Run the docker-compose.yml file with docker-compose up --build -d
 This will setup docker images with ChromaDB and python development environment
