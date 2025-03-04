@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  llmproject:
+    build:
+      context: .
+      args:
+        USER_NAME: llm_usr
+        GROUP_NAME: llm_usr
+    image: llm_image
+    container_name: llm_container
+    ports:
+      - "80:5001"  # Maps external port 80 to container port 5001
+    volumes:
+      - .:/home/llm_usr/app  # Mount the project directory
+    stdin_open: true
+    tty: true
+    environment:
+      - CHROMADB_HOST=chromadb_env  # Use service name instead of localhost
+      - CHROMADB_PORT=8000
+      - CHROMADB_USER=${CHROMADB_USER}
+      - CHROMADB_PASSWORD=${CHROMADB_PASSWORD}
+    depends_on:
+      chromadb_env:
+        condition: service_healthy  # Ensures ChromaDB is ready before starting LLM
+    env_file:
+      - .env  # Load environment variables from .env file
+    restart: unless-stopped  # Ensure the service keeps running
+
+  chromadb_env:
+    image: chromadb/chroma:latest
+    container_name: chromadb_container
+    ports:
+      - "8000:8000"
+    environment:
+      - CHROMADB_AUTH=basic  # ✅ Enable authentication
+      - CHROMADB_USER=${CHROMADB_USER}  # ✅ Set user
+      - CHROMADB_PASSWORD=${CHROMADB_PASSWORD}  # ✅ Set password
+    volumes:
+      - chroma_data:/chroma_db  # Ensure persistent storage
+    env_file:
+      - .env  # Load authentication variables securely
+    restart: unless-stopped  # Auto-restart if stopped
+    healthcheck:  # ✅ Ensure ChromaDB is fully started before LLM starts
+      test: ["CMD", "curl", "-u", "${CHROMADB_USER}:${CHROMADB_PASSWORD}", "http://localhost:8000/api/v1/collections"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+volumes:
+  chroma_data:
