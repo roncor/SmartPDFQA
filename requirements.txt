@@ -1,0 +1,22 @@
+# Core dependencies
+python-dotenv  # Load environment variables from .env
+psutil       # Monitor system resource usage (CPU, memory)
+tiktoken       # Tokenization for Azure OpenAI responses
+
+# ChromaDB
+chromadb     # Vector database for embeddings
+
+# LangChain & AI Models
+langchain
+langchain-community
+langchain-openai
+langchain-huggingface # For Hugging Face embeddings
+
+# Hugging Face Transformers (for embeddings)
+sentence-transformers # Required for sentence-transformers/all-mpnet-base-v2
+
+# PDF Processing
+pypdf        # Load and process PDF files
+
+# Concurrency
+concurrent-log-handler # (Only needed if logging)
